@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
+import AppReducer from "./reducer";
 
 const DUMMY_DATA = [
   {
@@ -21,10 +22,11 @@ const DUMMY_DATA = [
   }
 ];
 
-const AppContext = createContext({
+const initialState = {
   meetups: {
-    meetupsList: [],
+    meetupsList: DUMMY_DATA || [],
     totalMeetups: 0,
+    getMeetups: () => {},
     addMeetup: (meetup) => {},
     updateMeetup: (id, meetup) => {},
     removeMeetup: (id) => {}
@@ -32,20 +34,31 @@ const AppContext = createContext({
   favorites: {
     favoritesList: [],
     totalFavorites: 0,
+    getFavorites: () => {},
     addFavorite: (favoriteMeetup) => {},
     removeFavorite: (id) => {},
     itemIsFavorite: (id) => {}
   }
-});
+};
+
+const AppContext = createContext(initialState);
 
 export const ContextProvider = ({ children }) => {
-  const [userMeetups, setUserMeetups] = useState(DUMMY_DATA);
-  const [userFavorites, setUserFavorites] = useState([]);
+  const [state, dispatch] = useReducer(AppReducer, initialState);
+  // const [userMeetups, setUserMeetups] = useState(DUMMY_DATA);
 
   //##### Meetups #####//
+  const getMeetupsHandler = () => {
+    dispatch({
+      type: "MEETUPS_LIST",
+      payload: state.meetups.meetupsList
+    });
+  };
+
   const addMeetupHandler = (meetup) => {
-    setUserMeetups((prevUserMeetups) => {
-      return prevUserMeetups.concat(meetup);
+    dispatch({
+      type: "MEETUPS_INSERT",
+      payload: meetup
     });
   };
 
@@ -62,41 +75,53 @@ export const ContextProvider = ({ children }) => {
   };
 
   const removeMeetupHandler = (id) => {
-    setUserMeetups((prevUserMeetups) => {
-      return prevUserMeetups.filter((meetup) => meetup.id !== id);
+    dispatch({
+      type: "MEETUPS_DELETE",
+      payload: id
     });
   };
   //##### Meetups #####//
 
   //##### Favourites #####//
+  const getFavoritesHandler = () => {
+    dispatch({
+      type: "FAVORITES_LIST",
+      payload: state.favorites.favoritesList
+    });
+  };
+
   const addFavoriteHandler = (favoriteMeetup) => {
-    setUserFavorites((prevUserFavorites) => {
-      return prevUserFavorites.concat(favoriteMeetup);
+    dispatch({
+      type: "FAVORITES_INSERT",
+      payload: favoriteMeetup
     });
   };
 
   const removeFavoriteHandler = (id) => {
-    setUserFavorites((prevUserFavorites) => {
-      return prevUserFavorites.filter((meetup) => meetup.id !== id);
+    dispatch({
+      type: "FAVORITES_DELETE",
+      payload: id
     });
   };
 
   const itemIsFavoriteHandler = (id) => {
-    return userFavorites.some((meetup) => meetup.id === id);
+    return state.favorites.favoritesList.some((meetup) => meetup.id === id);
   };
   //##### Favourites #####//
 
   const context = {
     meetups: {
-      meetupsList: userMeetups,
-      totalMeetups: userMeetups.length,
+      meetupsList: state.meetups.meetupsList,
+      totalMeetups: state.meetups.meetupsList.length,
+      getMeetups: getMeetupsHandler,
       addMeetup: addMeetupHandler,
       updateMeetup: updateMeetupHandler,
       removeMeetup: removeMeetupHandler
     },
     favorites: {
-      favoritesList: userFavorites,
-      totalFavorites: userFavorites.length,
+      favoritesList: state.favorites.favoritesList,
+      totalFavorites: state.favorites.favoritesList.length,
+      getFavorites: getFavoritesHandler,
       addFavorite: addFavoriteHandler,
       removeFavorite: removeFavoriteHandler,
       itemIsFavorite: itemIsFavoriteHandler
