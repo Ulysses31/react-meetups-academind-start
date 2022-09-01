@@ -1,10 +1,9 @@
-import classes from "./MeetupList.module.css";
 import MeetupItem from "./MeetupItem";
 
 export default function MeetupList(props) {
   const { meetups } = props;
   return (
-    <ul className={classes.list}>
+    <div className="grid lg:grid-cols-2 gap-0">
       {meetups.map((meetup) => {
         return (
           <MeetupItem
@@ -17,6 +16,6 @@ export default function MeetupList(props) {
           />
         );
       })}
-    </ul>
+    </div>
   );
 }

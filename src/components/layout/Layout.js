@@ -3,9 +3,9 @@ import MainNavigation from "./MainNavigation";
 
 export default function Layout({ children }) {
   return (
-    <div>
+    <div className="container mx-auto my-auto">
       <MainNavigation />
-      <main className={classes.main}>{children}</main>
+      <main>{children}</main>
     </div>
   );
 }

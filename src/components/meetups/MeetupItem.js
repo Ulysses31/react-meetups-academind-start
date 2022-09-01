@@ -1,4 +1,4 @@
-import classes from "./MeetupItem.module.css";
+// import classes from "./MeetupItem.module.css";
 import Card from "../ui/Card";
 import { useContext } from "react";
 import AppContext from "../../store/context";
@@ -21,23 +21,41 @@ export default function MeetupItem(props) {
   };
 
   return (
-    <li className={classes.item}>
-      <Card>
-        <div className={classes.image}>
-          <img src={image} alt={title} />
+    <Card>
+      <figure className="m-5 md:flex md:max-w-2xl bg-slate-100 rounded-xl p-10 md:p-0 dark:bg-slate-800 shadow-lg">
+        <img
+          className="w-36 h-36 md:w-64 md:h-auto md:rounded-none rounded-full mx-auto"
+          src={image}
+          alt=""
+          width="450"
+          height="512"
+        />
+        <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
+          <blockquote>
+            <p className="text-lg font-medium">{description}</p>
+          </blockquote>
+          <figcaption className="font-medium">
+            <div className="text-sky-500 dark:text-sky-400">{title}</div>
+            <div className="text-slate-700 dark:text-slate-500">{address}</div>
+          </figcaption>
+          <div className="flex">
+            <button
+              type="submit"
+              className="w-full justify-center ml-2 mr-2 rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-md"
+              onClick={toggleFavoritesStatusHandler}
+            >
+              {itemIsFavorite ? "Not In Favorites" : "To Favorites"}
+            </button>
+            <button
+              type="submit"
+              className="w-full justify-center ml-2 mr-2 rounded-md border border-transparent bg-red-500 py-2 px-4 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 shadow-md"
+              onClick={() => meetupDeleteHandler(id)}
+            >
+              Delete
+            </button>
+          </div>
         </div>
-        <div className={classes.content}>
-          <h3>{title}</h3>
-          <address>{address}</address>
-          <p>{description}</p>
-        </div>
-        <div className={classes.actions}>
-          <button onClick={toggleFavoritesStatusHandler}>
-            {itemIsFavorite ? "Remove from Favorites" : "To Favorites"}
-          </button>
-          <button onClick={() => meetupDeleteHandler(id)}>Delete</button>
-        </div>
-      </Card>
-    </li>
+      </figure>
+    </Card>
   );
 }
