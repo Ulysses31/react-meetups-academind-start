@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import AppContext from "../../store/context";
 
 export default function MainNavigation() {
   const context = useContext(AppContext);
   const { totalFavorites } = context.favorites;
+  const location = useLocation().pathname;
 
   return (
     <nav className="bg-gray-800">
@@ -22,7 +23,7 @@ export default function MainNavigation() {
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link 
                   to={'/'}
-                  className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className={`${location === '/' ? 'bg-gray-900  text-white' : 'text-gray-300'} px-3 py-2 rounded-md text-sm font-medium`}  
                   aria-current="page"
                 >
                   Meetups
@@ -30,14 +31,14 @@ export default function MainNavigation() {
 
                 <Link
                   to={'/new-meetup'}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className={`${location === '/new-meetup' ? 'bg-gray-900  text-white' : 'text-gray-300'} px-3 py-2 rounded-md text-sm font-medium`}
                 >
                   New Meetup
                 </Link>
 
                 <Link
                   to={'/favorites'}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  className={`${location === '/favorites' ? 'bg-gray-900  text-white' : 'text-gray-300'} px-3 py-2 rounded-md text-sm font-medium`}
                 >
                   Favorites
                 </Link>

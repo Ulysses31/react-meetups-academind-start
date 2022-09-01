@@ -5,21 +5,19 @@ const DUMMY_DATA = [
   {
     id: "m1",
     title: "This is a first meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
+    image: "Stadtbild_München.jpg",
     address: "Meetupstreet 5, 12345 Meetup City",
     description:
-      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!"
+      "This is a first, amazing meetup which you definitely should not miss. It will be a lot of fun!",
   },
   {
     id: "m2",
     title: "This is a second meetup",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/2560px-Stadtbild_M%C3%BCnchen.jpg",
+    image: "Stadtbild_München.jpg",
     address: "Meetupstreet 15, 145 Meetup City",
     description:
-      "This is a second, amazing meetup which you definitely should not miss. It will be a lot of fun!"
-  }
+      "This is a second, amazing meetup which you definitely should not miss. It will be a lot of fun!",
+  },
 ];
 
 const initialState = {
@@ -29,7 +27,7 @@ const initialState = {
     getMeetups: () => {},
     addMeetup: (meetup) => {},
     updateMeetup: (id, meetup) => {},
-    removeMeetup: (id) => {}
+    removeMeetup: (id) => {},
   },
   favorites: {
     favoritesList: [],
@@ -37,8 +35,8 @@ const initialState = {
     getFavorites: () => {},
     addFavorite: (favoriteMeetup) => {},
     removeFavorite: (id) => {},
-    itemIsFavorite: (id) => {}
-  }
+    itemIsFavorite: (id) => {},
+  },
 };
 
 const AppContext = createContext(initialState);
@@ -51,14 +49,14 @@ export const ContextProvider = ({ children }) => {
   const getMeetupsHandler = () => {
     dispatch({
       type: "MEETUPS_LIST",
-      payload: state.meetups.meetupsList
+      payload: state.meetups.meetupsList,
     });
   };
 
   const addMeetupHandler = (meetup) => {
     dispatch({
       type: "MEETUPS_INSERT",
-      payload: meetup
+      payload: meetup,
     });
   };
 
@@ -77,7 +75,7 @@ export const ContextProvider = ({ children }) => {
   const removeMeetupHandler = (id) => {
     dispatch({
       type: "MEETUPS_DELETE",
-      payload: id
+      payload: id,
     });
   };
   //##### Meetups #####//
@@ -86,21 +84,21 @@ export const ContextProvider = ({ children }) => {
   const getFavoritesHandler = () => {
     dispatch({
       type: "FAVORITES_LIST",
-      payload: state.favorites.favoritesList
+      payload: state.favorites.favoritesList,
     });
   };
 
   const addFavoriteHandler = (favoriteMeetup) => {
     dispatch({
       type: "FAVORITES_INSERT",
-      payload: favoriteMeetup
+      payload: favoriteMeetup,
     });
   };
 
   const removeFavoriteHandler = (id) => {
     dispatch({
       type: "FAVORITES_DELETE",
-      payload: id
+      payload: id,
     });
   };
 
@@ -116,7 +114,7 @@ export const ContextProvider = ({ children }) => {
       getMeetups: getMeetupsHandler,
       addMeetup: addMeetupHandler,
       updateMeetup: updateMeetupHandler,
-      removeMeetup: removeMeetupHandler
+      removeMeetup: removeMeetupHandler,
     },
     favorites: {
       favoritesList: state.favorites.favoritesList,
@@ -124,8 +122,8 @@ export const ContextProvider = ({ children }) => {
       getFavorites: getFavoritesHandler,
       addFavorite: addFavoriteHandler,
       removeFavorite: removeFavoriteHandler,
-      itemIsFavorite: itemIsFavoriteHandler
-    }
+      itemIsFavorite: itemIsFavoriteHandler,
+    },
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
